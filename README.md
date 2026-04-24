@@ -1,206 +1,123 @@
-Blogger Platform
-A full-stack blogging platform with a professional admin dashboard, JWT authentication, MongoDB Atlas support, and modular backend architecture using Node.js, Express, and Mongoose.
+# 🚀 Blogger Platform
 
-Highlights
-Professional admin UI for posts, comments, authors, and categories
-JWT-based authentication with bcrypt password hashing
-MongoDB + Mongoose backend with validation, services, middleware, and modular routing
-Comment moderation workflow with active, pending, and rejected states
-React + Vite frontend connected to the existing backend routes
-Ready for GitHub presentation with screenshot support
-Submission Checklist
-Use this project as a single GitHub repository containing both the frontend/ and backend/ folders.
+A full-stack blogging platform featuring a professional admin dashboard, JWT authentication, MongoDB Atlas support, and a modular backend architecture.
 
-Upload the complete blogger-front-back-end project code to your GitHub repository.
-Add your repository URL in the included document file: Blogger-Aditi Jogad.doc.
-If you keep frontend and backend in one repository, use the same GitHub URL for both entries in the document.
-Upload the completed document file in classroom.
-Important:
+## ✨ Highlights
 
-.gitignore is included so node_modules, frontend/dist, and backend/.env are not pushed accidentally.
-Use backend/.env.example as the template for your local backend/.env.
-Screenshots
-Authentication Screen
-Authentication Screen
+-   **Admin UI**: Professional interface for managing posts, comments, authors, and categories.
+-   **Security**: JWT-based authentication with bcrypt password hashing and secure cookie handling.
+-   **Modular Backend**: Built with Node.js, Express, and Mongoose using a service-layer pattern.
+-   **Comment Moderation**: Integrated workflow for active, pending, and rejected statuses.
+-   **Frontend**: Modern React + Vite setup for a fast and responsive user experience.
 
-Dashboard Overview
-Dashboard Overview
+## 📸 Screenshots
 
-Posts Management
-Posts Management
+| Feature        | Preview                                       |
+| :------------- | :-------------------------------------------- |
+| Authentication | ![Authentication](auth-screen.png)            |
+| Dashboard      | ![Dashboard](dashboard-overview.png)          |
+| Posts          | ![Posts](posts-management.png)                |
+| Comments       | ![Comments](comments-management.png)          |
+| Authors        | ![Authors](authors-management.png)            |
+| Categories     | ![Categories](categories-management.png)      |
 
-Comments Management
-Comments Management
+## 🛠️ Tech Stack
 
-Authors Management
-Authors Management
+### Frontend
 
-Categories Management
-Categories Management
+-   React & Vite
+-   Lucide React (Icons)
+-   CSS3
 
-Tech Stack
-Frontend
-React
-Vite
-Lucide React
-CSS
-Backend
-Node.js
-Express
-MongoDB Atlas / MongoDB
-Mongoose
-JWT
-bcrypt
-cookie-parser
-cors
-helmet
-Project Structure
-backend/
-  app.js
-  index.js
-  server.js
-  config/
-    database.js
-    env.js
-  constants/
-    status.constants.js
-  controllers/
-    Auther-controller.js
-    category-controller.js
-    comments-controller.js
-    post-controller.js
-    users-controller.js
-  helper/
-    mongoose.js
-  helpers/
-    auth.js
-  middlewares/
-    auth.middleware.js
-    error.middleware.js
-    validate.middleware.js
-  model/
-    comment-model.js
-    user-model.js
-  models/
-    auther.js
-    category.js
-    comment.js
-    posts.js
-    users.js
-  routers/
-    Auther.js
-    category.js
-    comments.js
-    post.js
-    users.js
-  routes/
-    index.js
-  schemas/
-    auther-schema.js
-    category-schema.js
-    comment-schema.js
-    posts-schema.js
-    users-schema.js
-  services/
-    auth.service.js
-    comment.service.js
-  utils/
-    api-error.js
-    async-handler.js
-    jwt.js
-  validators/
-    auth.validator.js
-    comment.validator.js
-    common.validator.js
-frontend/
-  index.html
-  package.json
-  src/
-    main.jsx
-    styles.css
-screenshots/
-requirements.txt
-docker-compose.yml
-Architecture
-Separated app bootstrapping into app.js and server.js
-Added environment and database config with Atlas-friendly setup
-Added centralized middleware for auth, validation, and error handling
-Added services layer for cleaner business logic
-Rebuilt the comments module with validation, indexing, timestamps, static and instance methods
-Replaced weak password storage with bcrypt hashing
-Added a clean React/Vite admin dashboard
-Added root install scripts and Docker support for local MongoDB
-Comments Module
-The comments module includes:
+### Backend
 
-comment: required, trimmed, minimum 3 characters
-subject: required, trimmed
-status: enum active, pending, rejected
-post_id: required ObjectId, indexed, ref to Posts
-created: default Date.now
-createdAt and updatedAt timestamps
-compound index on { post_id: 1, createdAt: -1 }
-static method getCommentsByPost(postId)
-instance method approveComment()
-pre-save sanitization and empty-value protection
-API Examples
-Login:
+-   Node.js & Express
+-   MongoDB Atlas & Mongoose
+-   JWT (JSON Web Tokens)
+-   Bcrypt (Password Hashing)
+-   Middleware: CORS, Helmet, Cookie-Parser
 
+## 📂 Project Structure
+
+```plaintext
+.
+├── backend/
+│   ├── config/         # Database and environment config
+│   ├── controllers/    # Request handlers
+│   ├── middlewares/    # Auth and validation logic
+│   ├── models/         # Mongoose schemas
+│   ├── routes/         # API endpoints
+│   ├── services/       # Business logic
+│   ├── utils/          # Helper functions
+│   ├── app.js          # App configuration
+│   └── server.js       # Entry point
+├── frontend/
+│   ├── src/            # React components and logic
+│   ├── index.html
+│   └── package.json
+├── auth-screen.png
+├── dashboard-overview.png
+├── posts-management.png
+├── comments-management.png
+├── authors-management.png
+└── categories-management.png
+```
+
+## 🧠 Architecture & Logic
+
+-   **Separation of Concerns**: Decoupled bootstrapping (`app.js`) from the network server (`server.js`).
+-   **Service Layer**: Business logic is abstracted into services to keep controllers lean.
+-   **Comments Module**:
+    -   Validates minimum 3-character comments.
+    -   Uses compound indexing on `{ post_id, createdAt }` for optimized fetching.
+    -   Supports automated timestamps (`createdAt`, `updatedAt`).
+
+## 🔌 API Examples
+
+### 🔐 User Login
+
+```bash
 curl -X POST http://localhost:3000/users/login \
-  -H "Content-Type: application/json" \
-  -d "{\"email\":\"admin@example.com\",\"password\":\"Admin@123\"}"
-Create comment:
+-H "Content-Type: application/json" \
+-d "{\"email\":\"admin@example.com\",\"password\":\"Admin@123\"}"
+```
 
+### 💬 Add Comment
+
+```bash
 curl -X POST http://localhost:3000/comment/addcomment \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <token>" \
-  -d "{\"subject\":\"Nice post\",\"comment\":\"This article helped me.\",\"post_id\":\"66291a4bc7f2f6799e721111\"}"
-Get comments by post:
+-H "Authorization: Bearer <your_jwt_token>" \
+-d "{\"subject\":\"Great Read\",\"comment\":\"This was very helpful!\",\"post_id\":\"<id>\"}"
+```
 
-curl http://localhost:3000/comment/post/66291a4bc7f2f6799e721111 \
-  -H "Authorization: Bearer <token>"
-Update comment status:
+## ▶️ Getting Started
 
-curl -X PUT http://localhost:3000/comment/updatecomment/66291a4bc7f2f6799e722222 \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <token>" \
-  -d "{\"status\":\"active\"}"
-Delete comment:
+### 1. Environment Setup
 
-curl -X DELETE http://localhost:3000/comment/deletecomment/66291a4bc7f2f6799e722222 \
-  -H "Authorization: Bearer <token>"
-Run Locally
-Backend
+Create a `.env` file inside the `backend/` directory:
+
+```
+MONGODB_URI=your_mongodb_atlas_connection_string
+JWT_SECRET=your_secret_key_here
+PORT=3000
+```
+
+### 2. Install & Run Backend
+
+```bash
 cd backend
 npm install
 npm start
-Frontend
+```
+
+### 3. Install & Run Frontend
+
+```bash
 cd frontend
 npm install
-npm start
-Frontend runs on:
+npm run dev
+```
 
-http://localhost:3001
-Backend runs on:
+## 👨‍💻 Author
 
-http://localhost:3000
-Root Scripts
-From the project root:
-
-npm run install:all
-npm run frontend
-npm start
-Optional local MongoDB with Docker:
-
-npm run db:up
-Environment
-Use backend/.env.example as the template for backend/.env.
-
-If you use MongoDB Atlas, set:
-
-MONGODB_URI=mongodb+srv://<username>:<password>@<cluster>/<database>?appName=Cluster0
-Notes
-If you see connect ECONNREFUSED 127.0.0.1:27017, MongoDB is not running locally.
-If you see EADDRINUSE: address already in use :::3000, another backend server is already running on port 3000.
-In PowerShell, prefer Invoke-RestMethod or curl.exe instead of plain curl.
-This workspace is not currently connected to a GitHub remote, so you still need to initialize or link a repository before pushing.
+Aditi Jogad
